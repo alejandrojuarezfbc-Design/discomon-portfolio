@@ -120,9 +120,12 @@ export default function DashboardPage() {
             })}
           </nav>
           <div className="p-3 border-t border-gray-100">
-            <button className="w-full text-sm text-gray-500 hover:text-gray-700 py-2 px-3 rounded-lg hover:bg-gray-50 text-left">
-              + Gestionar categorías
-            </button>
+            <button
+  onClick={() => router.push('/admin/categorias')}
+  className="w-full text-sm text-gray-500 hover:text-gray-700 py-2 px-3 rounded-lg hover:bg-gray-50 text-left"
+>
+  + Gestionar categorías
+</button>
           </div>
         </aside>
 
