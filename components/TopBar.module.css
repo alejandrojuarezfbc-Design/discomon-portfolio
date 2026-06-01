@@ -1,0 +1,31 @@
+.topbar {
+  background: var(--teal-dark);
+  color: #fff;
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  font-size: 13.5px;
+}
+
+.topbar :global(.container) {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.topbar a {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: #fff;
+  opacity: 0.92;
+  transition: opacity 0.15s ease;
+  text-decoration: none;
+}
+
+.topbar a:hover { opacity: 1; }
+
+.dot { opacity: 0.4; }
