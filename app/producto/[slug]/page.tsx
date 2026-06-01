@@ -1,3 +1,4 @@
+import { Fragment } from 'react'
 import Link from 'next/link'
 import { CheckCircle2 } from 'lucide-react'
 import TopBar from '../../components/TopBar'
@@ -13,6 +14,15 @@ function lineas(texto: string | null): string[] {
     .split('\n')
     .map(l => l.trim())
     .filter(Boolean)
+}
+
+/* Normaliza el nombre de un icono Tabler guardado en BD a su clase.
+   Los valores ya suelen incluir el prefijo 'ti-'; si falta, se añade.
+   Vacío -> 'ti-point' (fallback). */
+function iconoTabler(valor: string | null): string {
+  const v = (valor ?? '').trim()
+  if (!v) return 'ti-point'
+  return v.startsWith('ti-') ? v : `ti-${v}`
 }
 
 export default async function ProductoPage({
@@ -42,7 +52,15 @@ export default async function ProductoPage({
 
   /* ── Datos derivados ──────────────────────────────────── */
   const queHace = prod.que_hace ?? []
-  const pasos = lineas(prod.como_funciona)
+  /* Pasos de "Cómo funciona" leídos de las columnas pasoN_*.
+     Solo se incluyen los pasos cuyo título no sea NULL/vacío. */
+  const pasos = [
+    { titulo: prod.paso1_titulo, texto: prod.paso1_texto, icono: prod.paso1_icono },
+    { titulo: prod.paso2_titulo, texto: prod.paso2_texto, icono: prod.paso2_icono },
+    { titulo: prod.paso3_titulo, texto: prod.paso3_texto, icono: prod.paso3_icono },
+    { titulo: prod.paso4_titulo, texto: prod.paso4_texto, icono: prod.paso4_icono },
+    { titulo: prod.paso5_titulo, texto: prod.paso5_texto, icono: prod.paso5_icono },
+  ].filter(p => p.titulo && p.titulo.trim() !== '')
   const publicos = lineas(prod.para_quien)
   const fichaLineas = lineas(prod.ficha_tecnica)
   const fotos = prod.fotos_urls ?? []
@@ -122,10 +140,21 @@ export default async function ProductoPage({
             <h2 className={styles.sectionTitle}>Así de simple</h2>
             <div className={styles.steps}>
               {pasos.map((paso, i) => (
-                <div key={i} className={styles.step}>
-                  <div className={styles.num}>{i + 1}</div>
-                  <p>{paso}</p>
-                </div>
+                <Fragment key={i}>
+                  <div className={styles.step}>
+                    <div className={styles.stepIcon}>
+                      <i className={`ti ${iconoTabler(paso.icono)}`} aria-hidden="true" />
+                    </div>
+                    <span className={styles.stepLabel}>PASO {i + 1}</span>
+                    <h4>{paso.titulo}</h4>
+                    {paso.texto && <p>{paso.texto}</p>}
+                  </div>
+                  {i < pasos.length - 1 && (
+                    <div className={styles.stepChevron} aria-hidden="true">
+                      <i className="ti ti-chevron-right" />
+                    </div>
+                  )}
+                </Fragment>
               ))}
             </div>
           </div>

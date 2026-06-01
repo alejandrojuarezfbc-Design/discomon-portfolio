@@ -24,7 +24,9 @@ export default function NuevoProductoPage() {
   const [marca, setMarca] = useState('')
   const [gancho, setGancho] = useState('')
   const [queHace, setQueHace] = useState(['', '', '', ''])
-  const [comoFunciona, setComoFunciona] = useState('')
+  const [pasos, setPasos] = useState(
+    Array.from({ length: 5 }, () => ({ titulo: '', texto: '', icono: '' })),
+  )
   const [paraQuien, setParaQuien] = useState('')
   const [fotosUrls, setFotosUrls] = useState([''])
   const [videosUrls, setVideosUrls] = useState([''])
@@ -71,6 +73,23 @@ export default function NuevoProductoPage() {
     setCtaSeleccionados(ctaSeleccionados.map(c => c === anterior ? valor : c))
   }
 
+  function editarPaso(i: number, campo: 'titulo' | 'texto' | 'icono', valor: string) {
+    setPasos(prev => prev.map((p, j) => (j === i ? { ...p, [campo]: valor } : p)))
+  }
+
+  /* Mapea los 5 pasos a las columnas pasoN_*; campos vacíos -> null */
+  function columnasPasos() {
+    const cols: Record<string, string | null> = {}
+    pasos.forEach((p, i) => {
+      const n = i + 1
+      const limpio = (v: string) => (v.trim() === '' ? null : v.trim())
+      cols[`paso${n}_titulo`] = limpio(p.titulo)
+      cols[`paso${n}_texto`] = limpio(p.texto)
+      cols[`paso${n}_icono`] = limpio(p.icono)
+    })
+    return cols
+  }
+
   async function guardar(estado: 'borrador' | 'publicado') {
     if (!nombre) { setMensaje('El nombre es obligatorio'); return }
     if (!categoriaId) { setMensaje('Selecciona una categoría'); return }
@@ -87,7 +106,7 @@ export default function NuevoProductoPage() {
       estado,
       gancho,
       que_hace: queHace.filter(p => p.trim() !== '').map(texto => ({ texto })),
-      como_funciona: comoFunciona,
+      ...columnasPasos(),
       para_quien: paraQuien,
       fotos_urls: fotosUrls.filter(u => u.trim() !== ''),
       videos_urls: videosUrls.filter(u => u.trim() !== ''),
@@ -252,14 +271,45 @@ export default function NuevoProductoPage() {
         {/* Sección 4 — Cómo funciona */}
         <section className="bg-white rounded-xl border border-gray-200 p-6">
           <h2 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-1">Cómo funciona</h2>
-          <p className="text-xs text-gray-400 mb-5">Explica el funcionamiento paso a paso, de forma simple. El visitante debe entenderlo sin conocimientos técnicos.</p>
-          <textarea
-            value={comoFunciona}
-            onChange={e => setComoFunciona(e.target.value)}
-            placeholder="ej: 1. El sensor detecta si hay un coche. 2. La app muestra las plazas libres en el mapa. 3. El conductor va directo a la plaza disponible."
-            rows={4}
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500 resize-none"
-          />
+          <p className="text-xs text-gray-400 mb-5">Hasta 5 pasos. Cada paso tiene un título corto, una explicación y un icono. En la ficha solo se muestran los pasos que tengan título.</p>
+          <div className="space-y-5">
+            {pasos.map((paso, i) => (
+              <div key={i} className="border border-gray-200 rounded-lg p-4">
+                <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Paso {i + 1}</h3>
+                <div className="space-y-3">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Título</label>
+                    <input
+                      value={paso.titulo}
+                      onChange={e => editarPaso(i, 'titulo', e.target.value)}
+                      placeholder="ej: Detecta"
+                      className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Texto</label>
+                    <textarea
+                      value={paso.texto}
+                      onChange={e => editarPaso(i, 'texto', e.target.value)}
+                      placeholder="ej: El sensor detecta si hay un coche en la plaza."
+                      rows={2}
+                      className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500 resize-none"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Icono</label>
+                    <p className="text-xs text-gray-400 mb-1">Nombre de un icono Tabler (ej: ti-gauge). Catálogo en tabler.io/icons.</p>
+                    <input
+                      value={paso.icono}
+                      onChange={e => editarPaso(i, 'icono', e.target.value)}
+                      placeholder="ti-gauge"
+                      className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
+                    />
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </section>
 
         {/* Sección 5 — Para quién es */}

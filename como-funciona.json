@@ -1,0 +1,359 @@
+{
+  "_meta": {
+    "fuente": "Redactado por Claude a partir del contenido real de cada producto (Notion + products.json)",
+    "fecha": "2026-06-01",
+    "total": 34,
+    "modelo_datos": "Columnas fijas en la tabla 'productos'. Hasta 5 pasos por producto.",
+    "columnas_sugeridas": [
+      "paso1_titulo, paso1_texto, paso1_icono",
+      "paso2_titulo, paso2_texto, paso2_icono",
+      "paso3_titulo, paso3_texto, paso3_icono",
+      "paso4_titulo, paso4_texto, paso4_icono",
+      "paso5_titulo, paso5_texto, paso5_icono"
+    ],
+    "instrucciones_para_claude_code": [
+      "1. Añade 15 columnas de texto a la tabla 'productos' (paso1..paso5, cada uno con _titulo, _texto, _icono), todas nullable.",
+      "2. Rellena cada producto (match por 'slug') con los pasos de este archivo.",
+      "3. Los pasos que no existan (p.ej. paso4 y paso5 en un producto de 3 pasos) quedan NULL.",
+      "4. En el componente de ficha, pintar solo los pasos cuyo _titulo no sea NULL/vacío. Si un producto no tiene ni paso1, ocultar toda la sección 'Cómo funciona'.",
+      "5. En el admin: añadir estos 15 campos como cajas de texto normales, agrupadas visualmente por paso. No usar JSON.",
+      "6. Los iconos son nombres de la librería Tabler (prefijo 'ti ti-'). Si alguno no existe en la versión instalada, usar 'ti-point' como fallback.",
+      "7. Responsive: en escritorio los pasos van en fila con chevrons entre ellos; en móvil se apilan en vertical."
+    ],
+    "estilo_iconos": "Tabler outline (ti ti-...). Acento de color: teal de marca (#2D5C56 sobre fondo #E8F4F2)."
+  },
+  "pasos": [
+    {
+      "slug": "city-hall-app",
+      "nombre": "City Hall App",
+      "como_funciona": [
+        { "titulo": "Descarga", "texto": "El ciudadano instala la app con la marca de su municipio.", "icono": "ti-device-mobile-down" },
+        { "titulo": "Accede", "texto": "Entra a información, trámites y servicios desde un único sitio.", "icono": "ti-layout-grid" },
+        { "titulo": "Usa", "texto": "Reserva espacios, saca entradas o abre instalaciones con el móvil.", "icono": "ti-ticket" },
+        { "titulo": "Reporta", "texto": "Comunica incidencias y sigue su estado en tiempo real.", "icono": "ti-message-report" },
+        { "titulo": "Gestiona", "texto": "El ayuntamiento administra todo desde un panel central.", "icono": "ti-settings" }
+      ]
+    },
+    {
+      "slug": "plataforma-onroll",
+      "nombre": "Plataforma Onroll",
+      "como_funciona": [
+        { "titulo": "Integra", "texto": "Conecta accesos, reservas, pagos y sensores en una sola plataforma.", "icono": "ti-plug-connected" },
+        { "titulo": "Centraliza", "texto": "Toda la gestión municipal se opera desde un único panel.", "icono": "ti-dashboard" },
+        { "titulo": "Automatiza", "texto": "Reservas, taquillas y accesos funcionan sin intervención manual.", "icono": "ti-robot" },
+        { "titulo": "Cobra", "texto": "Gestiona pagos online de actividades, bonos y tarjeta ciudadana.", "icono": "ti-credit-card" }
+      ]
+    },
+    {
+      "slug": "control-acceso-tornos",
+      "nombre": "Control de Acceso y Tornos (ZKTeco)",
+      "como_funciona": [
+        { "titulo": "Identifica", "texto": "El usuario se acredita con tarjeta RFID o huella dactilar.", "icono": "ti-fingerprint" },
+        { "titulo": "Valida", "texto": "El sistema comprueba si tiene permiso para esa zona.", "icono": "ti-shield-check" },
+        { "titulo": "Permite", "texto": "El torno se abre solo para accesos autorizados.", "icono": "ti-door-enter" },
+        { "titulo": "Protege", "texto": "En emergencia, los brazos liberan el paso automáticamente.", "icono": "ti-urgent" }
+      ]
+    },
+    {
+      "slug": "panel-led-informacion",
+      "nombre": "Panel LED de Información",
+      "como_funciona": [
+        { "titulo": "Programa", "texto": "El gestor crea los mensajes desde el software SurfDisplay.", "icono": "ti-edit" },
+        { "titulo": "Secuencia", "texto": "Ordena contenidos y horarios de emisión.", "icono": "ti-list-numbers" },
+        { "titulo": "Muestra", "texto": "La pantalla LED emite la información en el espacio público.", "icono": "ti-device-tv" },
+        { "titulo": "Actualiza", "texto": "Los mensajes se cambian de forma remota al instante.", "icono": "ti-refresh" }
+      ]
+    },
+    {
+      "slug": "smart-parking",
+      "nombre": "Smart Parking",
+      "como_funciona": [
+        { "titulo": "Detecta", "texto": "Un sensor en cada plaza detecta si está libre u ocupada.", "icono": "ti-device-cctv" },
+        { "titulo": "Procesa", "texto": "El sistema central actualiza la disponibilidad en tiempo real.", "icono": "ti-cpu" },
+        { "titulo": "Informa", "texto": "Paneles y app muestran las plazas libres al conductor.", "icono": "ti-sign-right" },
+        { "titulo": "Analiza", "texto": "El ayuntamiento consulta datos de ocupación y rotación.", "icono": "ti-chart-line" }
+      ]
+    },
+    {
+      "slug": "parking-autocaravanas",
+      "nombre": "Parking Inteligente de Autocaravanas",
+      "como_funciona": [
+        { "titulo": "Reserva", "texto": "El viajero reserva su plaza desde la app antes de llegar.", "icono": "ti-calendar-check" },
+        { "titulo": "Accede", "texto": "La cámara identifica el vehículo y abre la puerta.", "icono": "ti-door-enter" },
+        { "titulo": "Usa", "texto": "Dispone de toma eléctrica, agua y vaciado en el área.", "icono": "ti-plug" },
+        { "titulo": "Controla", "texto": "El sistema gestiona aforo, tiempo de estancia y cobro.", "icono": "ti-clock" }
+      ]
+    },
+    {
+      "slug": "paso-peatones-inteligente",
+      "nombre": "Paso de Peatones Inteligente",
+      "como_funciona": [
+        { "titulo": "Detecta", "texto": "El sensor identifica a un peatón acercándose al paso.", "icono": "ti-walk" },
+        { "titulo": "Ilumina", "texto": "Las luces LED del suelo marcan el paso activo.", "icono": "ti-bulb" },
+        { "titulo": "Avisa", "texto": "Las señales luminosas alertan al conductor a tiempo.", "icono": "ti-alert-triangle" },
+        { "titulo": "Funciona", "texto": "Se alimenta con energía solar, farola o red.", "icono": "ti-solar-panel" }
+      ]
+    },
+    {
+      "slug": "radar-pedagogico",
+      "nombre": "Radar Pedagógico",
+      "como_funciona": [
+        { "titulo": "Mide", "texto": "El sensor capta la velocidad del vehículo que se acerca.", "icono": "ti-gauge" },
+        { "titulo": "Muestra", "texto": "El panel LED enseña la velocidad al conductor al instante.", "icono": "ti-number" },
+        { "titulo": "Corrige", "texto": "El feedback inmediato invita a reducir la velocidad.", "icono": "ti-arrow-down-right" },
+        { "titulo": "Registra", "texto": "Los datos quedan en la nube para análisis del tráfico.", "icono": "ti-cloud-upload" }
+      ]
+    },
+    {
+      "slug": "radar-de-tramo",
+      "nombre": "Radar de Tramo",
+      "como_funciona": [
+        { "titulo": "Capta", "texto": "Una cámara lee la matrícula al entrar en el tramo.", "icono": "ti-camera" },
+        { "titulo": "Calcula", "texto": "Mide la velocidad media entre el punto de entrada y salida.", "icono": "ti-calculator" },
+        { "titulo": "Detecta", "texto": "Identifica vehículos que superan el límite permitido.", "icono": "ti-alert-triangle" },
+        { "titulo": "Notifica", "texto": "Avisa automáticamente a la policía y guarda el registro.", "icono": "ti-bell" }
+      ]
+    },
+    {
+      "slug": "camaras-matriculas-videovigilancia",
+      "nombre": "Cámaras Lectoras de Matrículas y Videovigilancia",
+      "como_funciona": [
+        { "titulo": "Capta", "texto": "La cámara graba e identifica cada vehículo que pasa.", "icono": "ti-camera" },
+        { "titulo": "Reconoce", "texto": "Lee matrícula, modelo y color mediante análisis de vídeo.", "icono": "ti-scan" },
+        { "titulo": "Controla", "texto": "Comprueba si el vehículo puede acceder a la zona.", "icono": "ti-shield-check" },
+        { "titulo": "Registra", "texto": "Guarda el histórico en la nube para consulta posterior.", "icono": "ti-cloud-upload" }
+      ]
+    },
+    {
+      "slug": "cruce-inteligente",
+      "nombre": "Cruce Inteligente",
+      "como_funciona": [
+        { "titulo": "Detecta", "texto": "El sensor identifica vehículos que se acercan al cruce.", "icono": "ti-car" },
+        { "titulo": "Procesa", "texto": "El sistema evalúa el riesgo de cruce sin visibilidad.", "icono": "ti-cpu" },
+        { "titulo": "Avisa", "texto": "La señal luminosa alerta a los conductores de la presencia de otros.", "icono": "ti-alert-triangle" }
+      ]
+    },
+    {
+      "slug": "aparcamiento-bicicletas-patinetes",
+      "nombre": "Aparcamiento de Bicicletas y Patinetes",
+      "como_funciona": [
+        { "titulo": "Accede", "texto": "El usuario abre la parada desde la app.", "icono": "ti-lock-open" },
+        { "titulo": "Aparca", "texto": "Deja su bici o patinete en uno de los anclajes cubiertos.", "icono": "ti-bike" },
+        { "titulo": "Carga", "texto": "Puede recargar el vehículo gracias al cargador integrado.", "icono": "ti-battery-charging" },
+        { "titulo": "Gestiona", "texto": "El municipio controla el uso desde la plataforma.", "icono": "ti-dashboard" }
+      ]
+    },
+    {
+      "slug": "taquillas-patinetes",
+      "nombre": "Taquillas Individuales para Patinetes",
+      "como_funciona": [
+        { "titulo": "Abre", "texto": "El usuario desbloquea su taquilla desde la app.", "icono": "ti-lock-open" },
+        { "titulo": "Guarda", "texto": "Deposita el patinete en una caja individual y segura.", "icono": "ti-box" },
+        { "titulo": "Carga", "texto": "El cargador integrado repone batería mientras está guardado.", "icono": "ti-battery-charging" },
+        { "titulo": "Recoge", "texto": "Vuelve a abrir con el móvil cuando lo necesita.", "icono": "ti-device-mobile" }
+      ]
+    },
+    {
+      "slug": "control-ruido",
+      "nombre": "Control de Ruido en Zonas Residenciales",
+      "como_funciona": [
+        { "titulo": "Mide", "texto": "El sensor monitoriza el nivel de ruido de la zona.", "icono": "ti-volume" },
+        { "titulo": "Compara", "texto": "Detecta cuándo se supera el umbral configurado.", "icono": "ti-wave-sine" },
+        { "titulo": "Avisa", "texto": "Una alerta lumínica visible advierte del exceso.", "icono": "ti-bulb" },
+        { "titulo": "Notifica", "texto": "Informa automáticamente a la policía si persiste.", "icono": "ti-bell" }
+      ]
+    },
+    {
+      "slug": "cargadores-vehiculos-electricos",
+      "nombre": "Cargadores para Vehículos Eléctricos",
+      "como_funciona": [
+        { "titulo": "Aparca", "texto": "El conductor estaciona en la plaza señalizada para VE.", "icono": "ti-parking" },
+        { "titulo": "Conecta", "texto": "Enchufa el vehículo a una de las dos salidas de carga.", "icono": "ti-plug" },
+        { "titulo": "Carga", "texto": "El punto recarga la batería del vehículo eléctrico.", "icono": "ti-battery-charging" }
+      ]
+    },
+    {
+      "slug": "senal-baden-inundable",
+      "nombre": "Señal Inteligente de Badén Inundable",
+      "como_funciona": [
+        { "titulo": "Detecta", "texto": "El sensor identifica cuándo la zona se ha inundado.", "icono": "ti-droplet" },
+        { "titulo": "Señaliza", "texto": "La señal indica si el acceso está abierto o cerrado.", "icono": "ti-traffic-cone" },
+        { "titulo": "Protege", "texto": "Avisa al conductor antes de entrar en el paso inundado.", "icono": "ti-alert-triangle" },
+        { "titulo": "Controla", "texto": "El agente puede activarla manualmente si es necesario.", "icono": "ti-hand-stop" }
+      ]
+    },
+    {
+      "slug": "smart-buildings",
+      "nombre": "Smart Buildings (Espacios Saludables)",
+      "como_funciona": [
+        { "titulo": "Mide", "texto": "Los sensores monitorizan la calidad del aire interior.", "icono": "ti-gauge" },
+        { "titulo": "Purifica", "texto": "Los purificadores limpian el aire de partículas y agentes.", "icono": "ti-wind" },
+        { "titulo": "Controla", "texto": "Gestiona también consumo de agua, energía y accesos.", "icono": "ti-dashboard" },
+        { "titulo": "Certifica", "texto": "El espacio obtiene el Certificado Verde de cero emisiones.", "icono": "ti-certificate" }
+      ]
+    },
+    {
+      "slug": "sensores-calidad-aire-oizom",
+      "nombre": "Sensores de Calidad del Aire OIZOM",
+      "como_funciona": [
+        { "titulo": "Mide", "texto": "Capta más de 30 parámetros: partículas, gases, ruido y clima.", "icono": "ti-gauge" },
+        { "titulo": "Conecta", "texto": "Envía los datos por cualquiera de sus 9 protocolos.", "icono": "ti-plug-connected" },
+        { "titulo": "Analiza", "texto": "Genera informes inteligentes y analíticas predictivas.", "icono": "ti-chart-dots" },
+        { "titulo": "Visualiza", "texto": "Muestra los datos en panel LED, web y app móvil.", "icono": "ti-device-desktop" },
+        { "titulo": "Alerta", "texto": "Lanza avisos programables al superar umbrales.", "icono": "ti-bell" }
+      ]
+    },
+    {
+      "slug": "contadores-agua-inteligentes",
+      "nombre": "Contadores de Agua Inteligentes",
+      "como_funciona": [
+        { "titulo": "Mide", "texto": "El contador registra el consumo de agua de forma remota.", "icono": "ti-droplet" },
+        { "titulo": "Monitoriza", "texto": "Controla también el riego de jardines y parques.", "icono": "ti-plant" },
+        { "titulo": "Detecta", "texto": "Identifica fugas y consumos anómalos en la red.", "icono": "ti-alert-triangle" },
+        { "titulo": "Optimiza", "texto": "Ayuda a reducir el gasto de agua del municipio.", "icono": "ti-trending-down" }
+      ]
+    },
+    {
+      "slug": "mapa-ambiental",
+      "nombre": "Mapa Ambiental",
+      "como_funciona": [
+        { "titulo": "Mide", "texto": "Sensores recogen partículas, gases, temperatura y humedad.", "icono": "ti-gauge" },
+        { "titulo": "Mapea", "texto": "Localiza los puntos más contaminados del municipio.", "icono": "ti-map-2" },
+        { "titulo": "Analiza", "texto": "Estudia los niveles en tiempo real de forma continua.", "icono": "ti-chart-dots" },
+        { "titulo": "Decide", "texto": "Aporta datos para implementar medidas efectivas.", "icono": "ti-bulb" }
+      ]
+    },
+    {
+      "slug": "solmaforo-uv",
+      "nombre": "Solmáforo UV",
+      "como_funciona": [
+        { "titulo": "Mide", "texto": "El sensor capta el nivel de radiación UV y el clima.", "icono": "ti-sun" },
+        { "titulo": "Evalúa", "texto": "Clasifica el riesgo de exposición en niveles tipo semáforo.", "icono": "ti-traffic-lights" },
+        { "titulo": "Avisa", "texto": "Informa al ciudadano del nivel UV del momento.", "icono": "ti-alert-triangle" }
+      ]
+    },
+    {
+      "slug": "control-contenedores",
+      "nombre": "Control Inteligente de Contenedores",
+      "como_funciona": [
+        { "titulo": "Mide", "texto": "Un chip sensor detecta aperturas, volumen y peso.", "icono": "ti-trash" },
+        { "titulo": "Vigila", "texto": "Controla temperatura y humedad para detectar incendios.", "icono": "ti-flame" },
+        { "titulo": "Optimiza", "texto": "Avisa a los camiones solo cuando hace falta recoger.", "icono": "ti-truck" },
+        { "titulo": "Alerta", "texto": "Notifica a la policía ante riesgo de incendio.", "icono": "ti-bell" }
+      ]
+    },
+    {
+      "slug": "caseta-deposito-basuras",
+      "nombre": "Caseta Inteligente de Depósito de Basuras",
+      "como_funciona": [
+        { "titulo": "Accede", "texto": "El vecino abre la caseta con QR o tarjeta Mifare.", "icono": "ti-qrcode" },
+        { "titulo": "Deposita", "texto": "Tira los residuos en un recinto cerrado y limpio.", "icono": "ti-trash" },
+        { "titulo": "Controla", "texto": "Sensores miden el llenado y vigilan el uso.", "icono": "ti-device-cctv" },
+        { "titulo": "Recoge", "texto": "El servicio retira los residuos por la puerta trasera.", "icono": "ti-truck" }
+      ]
+    },
+    {
+      "slug": "kien-mou",
+      "nombre": "Kien Mou — Árbol de la Renovación",
+      "como_funciona": [
+        { "titulo": "Aspira", "texto": "El tótem capta el aire contaminado de la zona.", "icono": "ti-wind" },
+        { "titulo": "Purifica", "texto": "Elimina partículas, gases, virus y bacterias.", "icono": "ti-air-conditioning" },
+        { "titulo": "Conecta", "texto": "Actúa como nodo de la red de datos SmartCity.", "icono": "ti-network" },
+        { "titulo": "Comunica", "texto": "Su cartel LED muestra publicidad o información.", "icono": "ti-device-tv" }
+      ]
+    },
+    {
+      "slug": "marquesinas-autobus",
+      "nombre": "Marquesinas de Autobús",
+      "como_funciona": [
+        { "titulo": "Diseña", "texto": "Se elige el modelo modular según la parada.", "icono": "ti-ruler-2" },
+        { "titulo": "Personaliza", "texto": "Se adapta con la identidad visual del municipio.", "icono": "ti-palette" },
+        { "titulo": "Instala", "texto": "El equipo coloca la marquesina lista para usar.", "icono": "ti-tools" }
+      ]
+    },
+    {
+      "slug": "modulo-cargador-movil",
+      "nombre": "Módulo Cargador de Móvil",
+      "como_funciona": [
+        { "titulo": "Llega", "texto": "El ciudadano se acerca al tótem en el espacio público.", "icono": "ti-walk" },
+        { "titulo": "Conecta", "texto": "Enchufa su móvil en una de las dos salidas de carga.", "icono": "ti-plug" },
+        { "titulo": "Carga", "texto": "Recupera batería de forma segura y con sus datos protegidos.", "icono": "ti-battery-charging" }
+      ]
+    },
+    {
+      "slug": "mobiliario-urbano-sostenible",
+      "nombre": "Mobiliario Urbano Sostenible",
+      "como_funciona": [
+        { "titulo": "Recicla", "texto": "Se fabrica con plástico mixto 100% reciclado.", "icono": "ti-recycle" },
+        { "titulo": "Resiste", "texto": "No se pudre, astilla ni acumula hongos ni bacterias.", "icono": "ti-shield-check" },
+        { "titulo": "Dura", "texto": "Mantiene su aspecto años sin apenas mantenimiento.", "icono": "ti-clock" },
+        { "titulo": "Instala", "texto": "Disponible en bancos, papeleras, vallas, pérgolas y más.", "icono": "ti-tools" }
+      ]
+    },
+    {
+      "slug": "fuente-urbana",
+      "nombre": "Fuente Urbana para Personas y Mascotas",
+      "como_funciona": [
+        { "titulo": "Conecta", "texto": "Se enlaza a la red de agua del municipio.", "icono": "ti-plug-connected" },
+        { "titulo": "Filtra", "texto": "El sistema Tríplex purifica el agua en tres fases.", "icono": "ti-filter" },
+        { "titulo": "Sirve", "texto": "Ofrece agua potable a personas y mascotas.", "icono": "ti-droplet" }
+      ]
+    },
+    {
+      "slug": "parques-infantiles",
+      "nombre": "Parques Infantiles",
+      "como_funciona": [
+        { "titulo": "Diseña", "texto": "Se proyecta el parque según el espacio disponible.", "icono": "ti-ruler-2" },
+        { "titulo": "Instala", "texto": "Se coloca el equipamiento de juego y el césped artificial.", "icono": "ti-tools" },
+        { "titulo": "Protege", "texto": "Los toldos dan sombra y seguridad a los niños.", "icono": "ti-umbrella" }
+      ]
+    },
+    {
+      "slug": "bolardos-inteligentes",
+      "nombre": "Bolardos Inteligentes y Flexibles",
+      "como_funciona": [
+        { "titulo": "Controla", "texto": "Gestiona qué vehículos pueden acceder a la zona.", "icono": "ti-shield-check" },
+        { "titulo": "Eleva", "texto": "El bolardo sube y baja de forma automática.", "icono": "ti-arrows-vertical" },
+        { "titulo": "Resiste", "texto": "Absorbe impactos gracias a su efecto memoria y protección UV.", "icono": "ti-shield" }
+      ]
+    },
+    {
+      "slug": "placas-fotovoltaicas",
+      "nombre": "Placas Fotovoltaicas",
+      "como_funciona": [
+        { "titulo": "Capta", "texto": "Las placas recogen la energía del sol.", "icono": "ti-sun" },
+        { "titulo": "Genera", "texto": "Convierten la luz en electricidad para el edificio.", "icono": "ti-bolt" },
+        { "titulo": "Ahorra", "texto": "Reducen el coste energético de las instalaciones municipales.", "icono": "ti-trending-down" }
+      ]
+    },
+    {
+      "slug": "bolardos-captafaros",
+      "nombre": "Bolardos y Captafaros (DOYS)",
+      "como_funciona": [
+        { "titulo": "Delimita", "texto": "Los bolardos marcan y protegen el espacio público.", "icono": "ti-traffic-cone" },
+        { "titulo": "Baliza", "texto": "Los captafaros solares señalizan pasos y cruces.", "icono": "ti-bulb" },
+        { "titulo": "Ilumina", "texto": "Mejoran la visibilidad nocturna sin instalación eléctrica.", "icono": "ti-solar-panel" },
+        { "titulo": "Instala", "texto": "El equipo coloca cada elemento según el uso.", "icono": "ti-tools" }
+      ]
+    },
+    {
+      "slug": "senalizacion-vertical-horizontal",
+      "nombre": "Señalización Vertical y Horizontal",
+      "como_funciona": [
+        { "titulo": "Proyecta", "texto": "Se planifica la señalización necesaria de la vía.", "icono": "ti-map-2" },
+        { "titulo": "Instala", "texto": "Coloca placas, postes y pintura vial.", "icono": "ti-tools" },
+        { "titulo": "Mantiene", "texto": "Repara luminaria, baterías y renueva la pintura.", "icono": "ti-refresh" }
+      ]
+    },
+    {
+      "slug": "alumbrado-publico",
+      "nombre": "Alumbrado Público — Farolas y Cuadros Eléctricos",
+      "como_funciona": [
+        { "titulo": "Instala", "texto": "Coloca farolas y sensoriza los cuadros eléctricos.", "icono": "ti-bulb" },
+        { "titulo": "Monitoriza", "texto": "Obtiene datos y detecta incidencias del alumbrado.", "icono": "ti-activity" },
+        { "titulo": "Regula", "texto": "Programa encendido y apagado por horario.", "icono": "ti-clock" },
+        { "titulo": "Ahorra", "texto": "Mejora la eficiencia y reduce el consumo energético.", "icono": "ti-trending-down" }
+      ]
+    }
+  ]
+}

@@ -21,6 +21,21 @@ export type Producto = {
   gancho: string
   que_hace: { texto: string }[] | null
   como_funciona: string | null
+  paso1_titulo: string | null
+  paso1_texto: string | null
+  paso1_icono: string | null
+  paso2_titulo: string | null
+  paso2_texto: string | null
+  paso2_icono: string | null
+  paso3_titulo: string | null
+  paso3_texto: string | null
+  paso3_icono: string | null
+  paso4_titulo: string | null
+  paso4_texto: string | null
+  paso4_icono: string | null
+  paso5_titulo: string | null
+  paso5_texto: string | null
+  paso5_icono: string | null
   para_quien: string | null
   fotos_urls: string[] | null
   videos_urls: string[] | null

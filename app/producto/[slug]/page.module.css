@@ -146,44 +146,61 @@
 /* ============ CÓMO FUNCIONA ============ */
 .howto { background: var(--soft); padding: 80px 0; }
 
+/* Escritorio: tarjetas en fila con chevrons entre ellas */
 .steps {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 32px;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  gap: 0;
   margin-top: 50px;
-  position: relative;
 }
 
-.steps::before {
-  content: '';
-  position: absolute;
-  top: 28px;
-  left: 16%;
-  right: 16%;
-  border-top: 2px dashed var(--teal);
-  opacity: 0.5;
-  z-index: 0;
+.step {
+  flex: 1 1 0;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  padding: 28px 24px;
+  text-align: center;
 }
 
-.step { position: relative; z-index: 1; text-align: center; }
-
-.num {
+.stepIcon {
   width: 56px;
   height: 56px;
-  margin: 0 auto 20px;
+  margin: 0 auto 18px;
   border-radius: 50%;
-  background: var(--soft);
-  border: 2px solid var(--teal);
-  color: var(--teal);
-  font-family: 'Outfit', sans-serif;
-  font-weight: 700;
-  font-size: 24px;
+  background: var(--teal-tint);
+  color: var(--teal-dark);
   display: grid;
   place-items: center;
+  font-size: 28px;
+}
+
+.stepLabel {
+  display: block;
+  font-family: 'Inter', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--teal);
+  margin-bottom: 8px;
 }
 
 .step h4 { font-size: 19px; font-weight: 600; color: var(--ink); margin-bottom: 8px; }
-.step p  { font-size: 15px; color: #6b7a78; max-width: 260px; margin: 0 auto; }
+.step p  { font-size: 15px; color: #6b7a78; margin: 0 auto; }
+
+/* Chevron entre tarjetas (solo escritorio) */
+.stepChevron {
+  flex: 0 0 auto;
+  align-self: center;
+  display: grid;
+  place-items: center;
+  padding: 0 14px;
+  color: var(--teal);
+  font-size: 26px;
+}
 
 /* ============ PARA QUIÉN ES ============ */
 .forwho { background: #fff; padding: 80px 0; }
@@ -328,8 +345,8 @@
   .heroGrid { grid-template-columns: 1fr; gap: 32px; }
   .productHero h1 { font-size: 40px; }
   .kpGrid, .whoGrid { grid-template-columns: 1fr; }
-  .steps { grid-template-columns: 1fr; gap: 36px; }
-  .steps::before { display: none; }
+  .steps { flex-direction: column; gap: 20px; }
+  .stepChevron { display: none; }
   .galGrid { grid-template-columns: 1fr 1fr; }
   .sectionTitle { font-size: 30px; }
   .ctaFinal h2 { font-size: 32px; }
