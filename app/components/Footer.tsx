@@ -1,16 +1,11 @@
 import Link from 'next/link'
 import { Phone, Mail } from 'lucide-react'
+import { getCategorias } from '../lib/queries'
 import styles from './Footer.module.css'
 
-const CATEGORIAS = [
-  { label: 'Gestión municipal digital', slug: 'gestion-municipal-digital' },
-  { label: 'Movilidad y tráfico',       slug: 'movilidad-y-trafico' },
-  { label: 'Medio ambiente',            slug: 'medio-ambiente' },
-  { label: 'Espacio público',           slug: 'espacio-publico' },
-  { label: 'Instalación y obra',        slug: 'instalacion-y-obra' },
-]
+export default async function Footer() {
+  const categorias = await getCategorias()
 
-export default function Footer() {
   return (
     <footer className={styles.footer}>
       <div className="container">
@@ -28,9 +23,9 @@ export default function Footer() {
           <div>
             <p className={styles.colLabel}>Soluciones</p>
             <ul>
-              {CATEGORIAS.map(cat => (
+              {categorias.map(cat => (
                 <li key={cat.slug}>
-                  <Link href={`/categoria/${cat.slug}`}>{cat.label}</Link>
+                  <Link href={`/categoria/${cat.slug}`}>{cat.nombre}</Link>
                 </li>
               ))}
             </ul>
