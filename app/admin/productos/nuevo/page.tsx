@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { supabase } from '../../../lib/supabase'
 import { useRouter, useSearchParams } from 'next/navigation'
 
@@ -9,7 +9,7 @@ type Categoria = {
   nombre: string
 }
 
-export default function NuevoProductoPage() {
+function NuevoProductoForm() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const categoriaInicial = searchParams.get('categoria') || ''
@@ -27,11 +27,11 @@ export default function NuevoProductoPage() {
   const [pasos, setPasos] = useState(
     Array.from({ length: 5 }, () => ({ titulo: '', texto: '', icono: '' })),
   )
+  const [variantes, setVariantes] = useState<{ nombre: string; descripcion: string }[]>([])
   const [paraQuien, setParaQuien] = useState('')
   const [fotosUrls, setFotosUrls] = useState([''])
   const [videosUrls, setVideosUrls] = useState([''])
-  const [fichaTecnica, setFichaTecnica] = useState('')
-  const [fichaAbierta, setFichaAbierta] = useState(false)
+  const [fichaTecnica, setFichaTecnica] = useState<{ bloque: string; detalle: string }[]>([])
   const [ctaOpciones, setCtaOpciones] = useState(['Solicitar información', 'Pedir una demo'])
   const [ctaSeleccionados, setCtaSeleccionados] = useState<string[]>(['Solicitar información'])
   const [ctaEmail, setCtaEmail] = useState('')
@@ -90,6 +90,28 @@ export default function NuevoProductoPage() {
     return cols
   }
 
+  /* ── Variantes (nombre + descripción; la galería se gestiona aparte) ── */
+  function editarVariante(i: number, campo: 'nombre' | 'descripcion', valor: string) {
+    setVariantes(prev => prev.map((v, j) => (j === i ? { ...v, [campo]: valor } : v)))
+  }
+  /* Variantes listas para guardar: jsonb {nombre, descripcion, galeria:[]} */
+  function variantesPayload() {
+    return variantes
+      .filter(v => v.nombre.trim() !== '')
+      .map(v => ({ nombre: v.nombre.trim(), descripcion: v.descripcion.trim(), galeria: [] as string[] }))
+  }
+
+  /* ── Ficha técnica (filas bloque + detalle) ── */
+  function editarFicha(i: number, campo: 'bloque' | 'detalle', valor: string) {
+    setFichaTecnica(prev => prev.map((f, j) => (j === i ? { ...f, [campo]: valor } : f)))
+  }
+  /* Ficha técnica lista para guardar: jsonb [{bloque, detalle}] sin filas vacías */
+  function fichaPayload() {
+    return fichaTecnica
+      .filter(f => f.bloque.trim() !== '' || f.detalle.trim() !== '')
+      .map(f => ({ bloque: f.bloque.trim(), detalle: f.detalle.trim() }))
+  }
+
   async function guardar(estado: 'borrador' | 'publicado') {
     if (!nombre) { setMensaje('El nombre es obligatorio'); return }
     if (!categoriaId) { setMensaje('Selecciona una categoría'); return }
@@ -107,10 +129,11 @@ export default function NuevoProductoPage() {
       gancho,
       que_hace: queHace.filter(p => p.trim() !== '').map(texto => ({ texto })),
       ...columnasPasos(),
+      variantes: variantesPayload(),
       para_quien: paraQuien,
       fotos_urls: fotosUrls.filter(u => u.trim() !== ''),
       videos_urls: videosUrls.filter(u => u.trim() !== ''),
-      ficha_tecnica: fichaTecnica,
+      ficha_tecnica: fichaPayload(),
       cta_texto: ctaSeleccionados.join('|'),
       cta_email: ctaEmail,
     })
@@ -312,10 +335,55 @@ export default function NuevoProductoPage() {
           </div>
         </section>
 
+        {/* Sección 4b — Variantes / Formatos */}
+        <section className="bg-white rounded-xl border border-gray-200 p-6">
+          <h2 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-1">Variantes / Formatos</h2>
+          <p className="text-xs text-gray-400 mb-5">Formatos o modelos del producto (ej: tamaños, modelos). Cada uno con nombre y descripción. 📷 La galería de fotos de cada variante se gestionará más adelante.</p>
+          <div className="space-y-3">
+            {variantes.map((v, i) => (
+              <div key={i} className="border border-gray-200 rounded-lg p-4">
+                <div className="flex items-center justify-between mb-3">
+                  <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Variante {i + 1}</h3>
+                  <button
+                    onClick={() => setVariantes(variantes.filter((_, j) => j !== i))}
+                    className="text-gray-300 hover:text-red-400 text-sm"
+                  >Quitar</button>
+                </div>
+                <div className="space-y-3">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Nombre</label>
+                    <input
+                      value={v.nombre}
+                      onChange={e => editarVariante(i, 'nombre', e.target.value)}
+                      placeholder="ej: City Box Onroll"
+                      className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Descripción</label>
+                    <textarea
+                      value={v.descripcion}
+                      onChange={e => editarVariante(i, 'descripcion', e.target.value)}
+                      placeholder="ej: Módulo cerrado individual para una bici o patinete."
+                      rows={2}
+                      className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500 resize-none"
+                    />
+                  </div>
+                  <p className="text-xs text-gray-300">📷 Galería de esta variante: pendiente (se añadirá en la fase de fotos).</p>
+                </div>
+              </div>
+            ))}
+            <button
+              onClick={() => setVariantes([...variantes, { nombre: '', descripcion: '' }])}
+              className="text-sm text-green-700 hover:underline"
+            >+ Añadir variante</button>
+          </div>
+        </section>
+
         {/* Sección 5 — Para quién es */}
         <section className="bg-white rounded-xl border border-gray-200 p-6">
           <h2 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-1">Para quién es</h2>
-          <p className="text-xs text-gray-400 mb-5">Casos de uso concretos. Empieza cada línea con "Municipios que..." o "Ayuntamientos que..."</p>
+          <p className="text-xs text-gray-400 mb-5">Casos de uso concretos. Empieza cada línea con &quot;Municipios que...&quot; o &quot;Ayuntamientos que...&quot;</p>
           <textarea
             value={paraQuien}
             onChange={e => setParaQuien(e.target.value)}
@@ -405,28 +473,35 @@ export default function NuevoProductoPage() {
         </section>
 
         {/* Sección 7 — Ficha técnica */}
-        <section className="bg-white rounded-xl border border-gray-200 overflow-hidden">
-          <button
-            onClick={() => setFichaAbierta(!fichaAbierta)}
-            className="w-full px-6 py-4 flex items-center justify-between text-left"
-          >
-            <div>
-              <h2 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">Ficha técnica</h2>
-              <p className="text-xs text-gray-400 mt-0.5">Opcional — solo para el perfil técnico. Aparece colapsada en el portfolio.</p>
-            </div>
-            <span className="text-gray-400">{fichaAbierta ? '▲' : '▼'}</span>
-          </button>
-          {fichaAbierta && (
-            <div className="px-6 pb-6">
-              <textarea
-                value={fichaTecnica}
-                onChange={e => setFichaTecnica(e.target.value)}
-                placeholder="Especificaciones técnicas, materiales, certificaciones, dimensiones..."
-                rows={5}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500 resize-none"
-              />
-            </div>
-          )}
+        <section className="bg-white rounded-xl border border-gray-200 p-6">
+          <h2 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-1">Ficha técnica</h2>
+          <p className="text-xs text-gray-400 mb-5">Opcional — para el perfil técnico. Cada fila es un par bloque + detalle (ej: Material → Plástico reciclado). Aparece colapsada en el portfolio.</p>
+          <div className="space-y-2">
+            {fichaTecnica.map((f, i) => (
+              <div key={i} className="flex items-start gap-2">
+                <input
+                  value={f.bloque}
+                  onChange={e => editarFicha(i, 'bloque', e.target.value)}
+                  placeholder="Bloque (ej: Material)"
+                  className="w-2/5 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
+                />
+                <input
+                  value={f.detalle}
+                  onChange={e => editarFicha(i, 'detalle', e.target.value)}
+                  placeholder="Detalle (ej: Plástico reciclado)"
+                  className="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
+                />
+                <button
+                  onClick={() => setFichaTecnica(fichaTecnica.filter((_, j) => j !== i))}
+                  className="text-gray-300 hover:text-red-400 text-lg leading-none pt-1.5"
+                >×</button>
+              </div>
+            ))}
+            <button
+              onClick={() => setFichaTecnica([...fichaTecnica, { bloque: '', detalle: '' }])}
+              className="text-sm text-green-700 hover:underline mt-1"
+            >+ Añadir fila</button>
+          </div>
         </section>
 
         {/* Sección 8 — CTA */}
@@ -474,5 +549,17 @@ export default function NuevoProductoPage() {
         <div className="h-8" />
       </div>
     </div>
+  )
+}
+
+export default function NuevoProductoPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <p className="text-gray-400">Cargando...</p>
+      </div>
+    }>
+      <NuevoProductoForm />
+    </Suspense>
   )
 }

@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Ficheros sidecar AppleDouble de macOS en discos no-HFS (no son código).
+    "**/._*",
   ]),
 ]);
 

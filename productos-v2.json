@@ -1,0 +1,246 @@
+{
+  "_meta": {
+    "version": 2,
+    "fecha": "2026-06-01",
+    "fuente": "45 fichas tecnicas reales de Discomon + inventario aprobado por Alex",
+    "total": 30,
+    "nota_total": "30 fichas. El mueble de reparacion de bicis va como opcion DENTRO de onroll (no cuenta como ficha).",
+    "estructura_ficha": ["gancho","que_hace","como_funciona(pasos pasoN_*)","variantes(opcional, con galeria propia)","para_quien","galeria(producto)","ficha_tecnica(colapsable)","cta"],
+    "modelo_variantes": "array de {nombre, descripcion, galeria:[]}. La galeria de cada variante se rellena en fase de fotos (subcarpetas).",
+    "modelo_galeria": "productos simples: galeria unica a nivel producto. productos con variantes: galeria por variante.",
+    "instrucciones_claude_code": [
+      "v2 reemplaza inventario. upsert por slug.",
+      "slugs v1 ausentes en v2 -> despublicar o eliminar TRAS confirmar con Alex. NO borrar a ciegas.",
+      "columnas nuevas a crear via SQL Editor (confirmar con Alex): variantes (jsonb), ficha_tecnica (jsonb), galeria (jsonb), foto_principal (text).",
+      "conservar columnas pasoN_* existentes; el como_funciona se reaprovecha donde el slug coincide.",
+      "respetar slugs EXACTOS."
+    ],
+    "cta": {"primario":"Solicitar informacion","secundario":"Pedir una demo"}
+  },
+  "productos": [
+    {"slug":"city-hall-app","nombre":"City Hall App","marca":"City Hall App","categoria_slug":"gestion-municipal-digital","destacado":true,
+     "gancho":"Los servicios municipales estan repartidos en webs y apps distintas. El ciudadano no sabe donde ir y acaba sin usar lo que el ayuntamiento le ofrece.",
+     "que_hace":["Reune informacion, tramites y servicios del municipio en una sola app con su marca","Agenda de eventos con inscripcion y venta de entradas","Reserva de espacios e instalaciones municipales","Acceso digital a instalaciones por QR/NFC","Reporte y seguimiento de incidencias"],
+     "variantes":[],"para_quien":["Municipio que quiere digitalizar piscina, polideportivo o biblioteca","Ayuntamiento que quiere eliminar colas en taquilla","Municipio turistico que informa y vende entradas"],"ficha_tecnica":[]},
+
+    {"slug":"plataforma-onroll","nombre":"Plataforma Onroll","marca":"Discomon IoT","categoria_slug":"gestion-municipal-digital","destacado":false,
+     "gancho":"Cada servicio municipal se gestiona con una herramienta distinta. No hay una plataforma comun para ofrecer servicios digitales integrados.",
+     "que_hace":["Plataforma SmartCity a medida del ayuntamiento","Acceso inteligente a edificios publicos","Reservas y pago online de actividades","Automatizacion de taquillas publicas","Integra sensores ambientales, de movilidad y trafico"],
+     "variantes":[],"para_quien":["Polideportivo","Biblioteca","Pistas deportivas","Intercambiadores"],"ficha_tecnica":[]},
+
+    {"slug":"control-acceso-tornos","nombre":"Control de acceso y tornos (ZKTeco)","marca":"Discomon IoT","categoria_slug":"gestion-municipal-digital","destacado":false,
+     "gancho":"Los edificios publicos no pueden controlar quien entra ni a que zonas, generando problemas de seguridad y gestion.",
+     "que_hace":["Control de acceso con tarjeta RFID o huella dactilar","Identificacion en areas restringidas","Modo emergencia: liberacion automatica del paso","Modelo apto para movilidad reducida"],
+     "variantes":[{"nombre":"ZKTeco TS1000","descripcion":"Torno con lector de tarjeta o huella para zonas restringidas. Brazos caen en emergencia.","galeria":[]},{"nombre":"ZKTeco SBT2000S","descripcion":"Lector RFID o huella apto para movilidad reducida, con modo emergencia automatico.","galeria":[]}],
+     "para_quien":["Acceso a polideportivos y piscinas","Zonas restringidas en ayuntamientos","Bibliotecas y centros civicos"],
+     "ficha_tecnica":[{"bloque":"Identificacion","detalle":"Tarjeta RFID o huella dactilar"},{"bloque":"Emergencia","detalle":"Liberacion automatica del paso"},{"bloque":"Modelos","detalle":"TS1000 estandar y SBT2000S movilidad reducida"}]},
+
+    {"slug":"lockers","nombre":"Lockers inteligentes","marca":"Discomon IoT","categoria_slug":"gestion-municipal-digital","destacado":false,
+     "gancho":"El comercio local y la logistica urbana necesitan puntos de recogida disponibles a cualquier hora, sin depender de horarios comerciales.",
+     "que_hace":["Taquillas inteligentes de almacenamiento y distribucion de pedidos","Recogida a cualquier hora mediante identificacion digital","Conectividad IoT y gestion en la nube","Fomenta el comercio local y reduce desplazamientos"],
+     "variantes":[],"para_quien":["Mercados municipales y comercio local","Puntos de recogida urbanos","Servicios de paqueteria del municipio"],
+     "ficha_tecnica":[{"bloque":"Tecnologia","detalle":"IoT con conectividad en la nube"},{"bloque":"Acceso","detalle":"Identificacion digital, disponible 24/7"}]},
+
+    {"slug":"panel-led-informacion","nombre":"Panel LED de informacion","marca":"Discomon IoT","categoria_slug":"gestion-municipal-digital","destacado":false,
+     "gancho":"Los municipios no tienen forma de comunicar informacion urgente o de interes a los ciudadanos en tiempo real en el espacio publico.",
+     "que_hace":["Pantalla LED de alta visibilidad para espacios publicos","Software SurfDisplay para gestionar el contenido a distancia","Programacion de secuencias y horarios","Ideal para plazas, accesos y zonas de alto trafico"],
+     "variantes":[],"para_quien":["Informacion de eventos","Alertas de emergencia","Ocupacion de parkings","Normas en ZBE"],
+     "ficha_tecnica":[{"bloque":"Pantalla","detalle":"Area grafica 2880x1920 mm, 5,53 m2, resolucion 504x336 px"},{"bloque":"Software","detalle":"SurfDisplay, gestion de contenido en remoto"},{"bloque":"Estructura","detalle":"Acero con tubo de 200 mm soldado a estructura portante"}]},
+
+    {"slug":"smart-parking","nombre":"Smart Parking","marca":"Discomon IoT","categoria_slug":"movilidad-y-trafico","destacado":false,
+     "gancho":"Los conductores pierden tiempo buscando aparcamiento y el ayuntamiento no tiene datos reales de ocupacion.",
+     "que_hace":["Senales con plazas disponibles en tiempo real","Sensores en cada plaza o conteo de entrada/salida","Localizacion en tiempo real","Plazas adaptadas para movilidad reducida","Acceso via app"],
+     "variantes":[],"para_quien":["Parkings disuasorios","Zona azul automatizada","Areas de descarga","Plazas de movilidad reducida"],
+     "ficha_tecnica":[{"bloque":"Deteccion","detalle":"Por sensorizacion de plaza o por conteo de entrada/salida"},{"bloque":"Datos","detalle":"Registro de plazas libres/ocupadas en plataforma"}]},
+
+    {"slug":"parking-autocaravanas","nombre":"Parking inteligente de autocaravanas","marca":"Discomon IoT","categoria_slug":"movilidad-y-trafico","destacado":false,
+     "gancho":"Los municipios no pueden gestionar ni cobrar el uso de areas de autocaravanas, y los viajeros no saben si hay plazas.",
+     "que_hace":["Reservas y pagos desde la app","Cámara que registra el vehiculo y abre barrera","Puntos de toma electrica, agua y vaciado","Control de aforo y tiempo de estancia"],
+     "variantes":[],"para_quien":["Municipios con turismo de caravanas","Zonas costeras o rurales","Areas de servicio municipales"],
+     "ficha_tecnica":[{"bloque":"Acceso","detalle":"Camara registra el vehiculo y actua la barrera"},{"bloque":"Servicios","detalle":"Toma electrica, agua y vaciado"},{"bloque":"Gestion","detalle":"Reservas, pagos, aforo y estancia via plataforma"}]},
+
+    {"slug":"aparcamiento-onroll","nombre":"Aparcamiento seguro de bicis y patinetes (Onroll)","marca":"Discomon IoT","categoria_slug":"movilidad-y-trafico","destacado":false,
+     "gancho":"Las bicis y patinetes aparcados en la calle son inseguros, sufren robos y no dan datos al municipio.",
+     "que_hace":["Anclaje seguro mediante app movil y QR","Datos de movilidad para el ayuntamiento","Plataforma propiedad del municipio (proteccion de datos)","Carga de vehiculos integrada","Servicio gratuito o de pago, lo decide el ayuntamiento"],
+     "variantes":[
+       {"nombre":"Parada Basica","descripcion":"Abierta y modular. 1 master + hasta 14 modulos esclavo con anclaje y recarga.","galeria":[]},
+       {"nombre":"City Box","descripcion":"Caja individual y autonoma (1299x865 mm) con bloqueo electronico por app. Opcion solar y toma 220V.","galeria":[]},
+       {"nombre":"H Box","descripcion":"Caja grande modular y ensamblable (1900x800x1190). Opcion solar, estante y toma 220V.","galeria":[]},
+       {"nombre":"Casetas (12 / 20 vehiculos)","descripcion":"Estructura cerrada con policarbonato, iluminacion LED, acceso automatico, videovigilancia y mueble de reparacion de bicis.","galeria":[]},
+       {"nombre":"Marquesinas (8 / 16 vehiculos)","descripcion":"Cubierta modular master + esclavos. Opcion mueble de reparacion de bicis.","galeria":[]}
+     ],
+     "para_quien":["Intercambiadores de transporte","Colegios e institutos","Centros deportivos","Zonas comerciales"],
+     "ficha_tecnica":[{"bloque":"Acceso","detalle":"App movil, QR o tarjeta ciudadana"},{"bloque":"Alimentacion","detalle":"220V AC, opcion kit solar"},{"bloque":"Plataforma","detalle":"Datos propiedad del ayuntamiento"},{"bloque":"Extra","detalle":"Mueble de reparacion de bicis disponible en casetas y marquesinas"}]},
+
+    {"slug":"paso-peatones-inteligente","nombre":"Paso de peatones inteligente","marca":"Discomon IoT","categoria_slug":"movilidad-y-trafico","destacado":false,
+     "gancho":"Los peatones cruzan sin que los conductores los detecten a tiempo, sobre todo de noche. Los pasos convencionales no alertan al conductor.",
+     "que_hace":["Sensor de deteccion de peatones","Senalizacion luminosa que avisa al conductor","Iluminacion en el propio paso","Alimentacion solar, farola o red"],
+     "variantes":[
+       {"nombre":"Con captafaros","descripcion":"Captafaros SR insertados en el paso, intermitentes en ambar al detectar peaton. Enfocado a avisar al conductor.","galeria":[]},
+       {"nombre":"Con losetas","descripcion":"Losetas LED a ras de suelo que iluminan el paso. Enfocado a dar seguridad al peaton.","galeria":[]},
+       {"nombre":"Losetas con semaforo (CrossLED)","descripcion":"Losetas sincronizadas con el semaforo que cambian de color segun su estado.","galeria":[]}
+     ],
+     "para_quien":["Zonas escolares","Accesos a hospitales","Pasos en vias con poca visibilidad","Municipios con alta densidad peatonal"],
+     "ficha_tecnica":[{"bloque":"Deteccion","detalle":"Sensor de presencia de peatones"},{"bloque":"Alimentacion","detalle":"Panel solar, farola con bateria o red"},{"bloque":"Variantes","detalle":"Captafaros SR-25/SR-11, losetas, losetas+semaforo CrossLED"}]},
+
+    {"slug":"radar-pedagogico","nombre":"Radar pedagogico","marca":"Discomon IoT","categoria_slug":"movilidad-y-trafico","destacado":false,
+     "gancho":"El exceso de velocidad en entradas de municipio y zonas escolares causa accidentes. Lo que funciona es el feedback inmediato.",
+     "que_hace":["Mide la velocidad del vehiculo que se acerca","Muestra la velocidad o mensajes al conductor","Acceso a datos historicos en la nube","Alimentacion solar"],
+     "variantes":[],"para_quien":["Entradas a municipios","Zonas escolares y hospitalarias","Poligonos industriales"],
+     "ficha_tecnica":[{"bloque":"Medicion","detalle":"Sensor de velocidad con panel LED de feedback"},{"bloque":"Datos","detalle":"Historico en la nube"},{"bloque":"Alimentacion","detalle":"Solar"}]},
+
+    {"slug":"radar-de-tramo","nombre":"Radar de tramo","marca":"Discomon IoT","categoria_slug":"movilidad-y-trafico","destacado":false,
+     "gancho":"Los radares fijos son faciles de burlar. El control de velocidad media en un tramo es mas efectivo para reducir accidentes.",
+     "que_hace":["Mide la velocidad media entre dos puntos","Lee matricula, color y tipo de vehiculo","Datos historicos en nube con GPS","Notificacion automatica a la policia"],
+     "variantes":[],"para_quien":["Tramos con alto indice de accidentes","Accesos a municipios","Vias con limite frecuentemente incumplido"],
+     "ficha_tecnica":[{"bloque":"Medicion","detalle":"Velocidad media de tramo, hasta 320 km/h"},{"bloque":"Camara","detalle":"Lectura de matricula, color, tipo, fecha y hora"},{"bloque":"Sincronismo","detalle":"GPS para sincronizacion horaria"}]},
+
+    {"slug":"senal-cruce-peligroso","nombre":"Senal de cruce peligroso","marca":"Discomon IoT","categoria_slug":"movilidad-y-trafico","destacado":false,
+     "gancho":"Muchos accidentes ocurren en cruces sin visibilidad donde los conductores no se ven hasta el ultimo momento.",
+     "que_hace":["Sensor que detecta vehiculos en la interseccion","Senal Tipo 2 detecta y avisa a la Tipo 1","Paneles LED de advertencia en tiempo real","Camara termica para deteccion (SR-TICS)"],
+     "variantes":[],"para_quien":["Cruces rurales con vegetacion","Intersecciones en zonas industriales","Salidas con poca visibilidad"],
+     "ficha_tecnica":[{"bloque":"Deteccion","detalle":"Sensores y camara termica SR-TICS"},{"bloque":"Aviso","detalle":"Paneles LED en ambas vias"},{"bloque":"Alimentacion","detalle":"Solar (GSRSOLAR)"}]},
+
+    {"slug":"camaras-matriculas-videovigilancia","nombre":"Camaras lectoras de matriculas y videovigilancia","marca":"Discomon IoT","categoria_slug":"movilidad-y-trafico","destacado":false,
+     "gancho":"Los municipios necesitan controlar accesos a zonas restringidas e identificar vehiculos sin personal dedicado.",
+     "que_hace":["Reconocimiento de matricula, modelo y color","Conteo de personas en vehiculo","Acceso a datos historicos en la nube","Analisis de video inteligente"],
+     "variantes":[],"para_quien":["Control de acceso a centros historicos (ZBE)","Zonas peatonales","Identificacion en incidentes","Vigilancia de poligonos"],
+     "ficha_tecnica":[{"bloque":"Reconocimiento","detalle":"Matricula (lectura completa o parcial), modelo y color"},{"bloque":"Ubicacion","detalle":"Camaras en las entradas del municipio"},{"bloque":"Datos","detalle":"Historico en la nube"}]},
+
+    {"slug":"senal-baden-inundable","nombre":"Senal inteligente de baden inundable","marca":"Discomon IoT","categoria_slug":"movilidad-y-trafico","destacado":false,
+     "gancho":"En lluvias intensas los conductores no saben si un paso esta inundado hasta que es tarde. Critico en zonas mediterraneas.",
+     "que_hace":["Deteccion automatica de zona inundada","Senal que indica si el acceso esta abierto o cerrado","Activacion manual por el agente","Alimentacion solar autonoma"],
+     "variantes":[],"para_quien":["Badenes y pasos bajos mediterraneos","Zonas con historial de inundaciones","Accesos en zonas de riesgo"],
+     "ficha_tecnica":[{"bloque":"Deteccion","detalle":"Sensor de inundacion, corte de via automatico"},{"bloque":"Control","detalle":"Activacion manual por agente"},{"bloque":"Alimentacion","detalle":"Solar autonoma"}]},
+
+    {"slug":"smart-buildings","nombre":"Smart Buildings (espacios saludables)","marca":"Discomon IoT","categoria_slug":"medio-ambiente","destacado":false,
+     "gancho":"Los edificios publicos no monitorizan la calidad del aire interior, que puede ser hasta 5 veces mas contaminado que el exterior.",
+     "que_hace":["Sensores de calidad del aire en interiores","Purificadores (split, falso techo, maceteros)","Certificado Verde de cero emisiones","Control de accesos y videovigilancia","Control de consumo de agua y energia"],
+     "variantes":[],"para_quien":["Colegios y guarderias","Bibliotecas y edificios municipales","Polideportivos y piscinas cubiertas","Oficinas del ayuntamiento"],
+     "ficha_tecnica":[{"bloque":"Sensorizacion","detalle":"Calidad de aire interior"},{"bloque":"Purificacion","detalle":"Formato split, falso techo o maceteros"},{"bloque":"Certificacion","detalle":"Certificado Verde, cero emisiones"}]},
+
+    {"slug":"sensores-calidad-aire-oizom","nombre":"Sensores de calidad del aire OIZOM","marca":"Discomon IoT","categoria_slug":"medio-ambiente","destacado":false,
+     "gancho":"Los municipios no tienen datos reales de la calidad del aire que respiran sus ciudadanos. Sin datos no hay politica ambiental efectiva.",
+     "que_hace":["Mide hasta 30+ parametros ambientales","Particulas, gases, olores, ruido, radiacion y meteorologia","Informes inteligentes y analiticas predictivas","Visualizacion en LED, web y app","Multiples protocolos de conectividad"],
+     "variantes":[
+       {"nombre":"Polludrone","descripcion":"Estacion completa de calidad del aire: particulas, gases, ruido, meteorologia.","galeria":[]},
+       {"nombre":"Dustroid","descripcion":"Monitor de particulas y polvo (PM) para obras, canteras y demoliciones.","galeria":[]},
+       {"nombre":"Odosense","descripcion":"Monitorizacion de olores para EDAR, vertederos e industria.","galeria":[]},
+       {"nombre":"Weathercom","descripcion":"Estacion meteorologica: temperatura, humedad, UV, luz, ruido.","galeria":[]},
+       {"nombre":"AQBot","descripcion":"Sensor compacto de un parametro especifico (gas o ruido).","galeria":[]}
+     ],
+     "para_quien":["Zonas de Bajas Emisiones (ZBE)","Calidad del aire en colegios","Vigilancia de olores","Control de emisiones industriales","Supresion de polvo en obra"],
+     "ficha_tecnica":[{"bloque":"Parametros","detalle":"30+ (PM2.5, PM10, gases, olores, ruido, UV, meteo)"},{"bloque":"Conectividad","detalle":"9 protocolos"},{"bloque":"Visualizacion","detalle":"LED, web y app movil"},{"bloque":"Gama","detalle":"Polludrone, Dustroid, Odosense, Weathercom, AQBot"}]},
+
+    {"slug":"bosques-inteligentes","nombre":"Bosques inteligentes","marca":"Discomon IoT","categoria_slug":"medio-ambiente","destacado":false,
+     "gancho":"Los municipios con masa forestal y nucleos diseminados necesitan prevenir, detectar y apoyar la extincion de incendios.",
+     "que_hace":["Sensores de temperatura, humedad, viento y CO/CO2","Calculo automatico de mapas de riesgo","Deteccion temprana de fuego con alerta SMS y mail","Seguimiento en tiempo real del tamano y direccion del fuego","Datos publicados en plataforma Sentilo de la Diputacion"],
+     "variantes":[],"para_quien":["Municipios con masa forestal","Zonas con nucleos de poblacion diseminados","Politicas de prevencion de incendios"],
+     "ficha_tecnica":[{"bloque":"Sensores","detalle":"Temperatura, humedad, velocidad y direccion del viento, CO/CO2"},{"bloque":"Sistema","detalle":"Bseed WATCH con deteccion temprana y alertas automaticas"},{"bloque":"Integracion","detalle":"Plataforma Sentilo (Diputacion de Valencia)"}],
+     "_nuevo":"PRODUCTO NUEVO. Codigo GBOSQUESI."},
+
+    {"slug":"contadores-agua-inteligentes","nombre":"Contadores de agua inteligentes","marca":"Discomon IoT","categoria_slug":"medio-ambiente","destacado":false,
+     "gancho":"Los municipios no tienen visibilidad en tiempo real del consumo de agua ni pueden detectar fugas o riego ineficiente.",
+     "que_hace":["Control remoto del consumo de agua","Gestion del riego de jardines","Lectura de contadores domiciliarios","Deteccion de fugas y consumos anomalos"],
+     "variantes":[],"para_quien":["Jardines y parques municipales","Control de fugas en la red","Instalaciones deportivas"],
+     "ficha_tecnica":[{"bloque":"Medicion","detalle":"Contadores domiciliarios y de riego"},{"bloque":"Gestion","detalle":"Monitorizacion remota del consumo"}]},
+
+    {"slug":"mapa-ambiental","nombre":"Mapa ambiental","marca":"Discomon IoT","categoria_slug":"medio-ambiente","destacado":false,
+     "gancho":"Los municipios no conocen sus puntos mas contaminados ni pueden implementar medidas efectivas sin datos de base.",
+     "que_hace":["Estudio y mapa de los puntos mas contaminados","Medicion continua en tiempo real","Datos de particulas, gases, temperatura, presion y humedad","Base para justificar politicas ambientales"],
+     "variantes":[],"para_quien":["Diagnostico previo a una ZBE","Justificacion de politicas ante la ciudadania","Seguimiento de la evolucion del aire"],
+     "ficha_tecnica":[{"bloque":"Medicion","detalle":"Particulas, gases, temperatura, presion, humedad"},{"bloque":"Modo","detalle":"Continuo y en tiempo real"}]},
+
+    {"slug":"solmaforo-uv","nombre":"Solmaforo UV","marca":"Discomon IoT","categoria_slug":"medio-ambiente","destacado":false,
+     "gancho":"Los ciudadanos, sobre todo en playas, desconocen el nivel de radiacion UV al que se exponen.",
+     "que_hace":["Indicador tipo semaforo del nivel UV","Sensor Weathercom (UV, temperatura, humedad, luz, ruido)","Pantalla LED exterior","Software Envizom con interfaz web"],
+     "variantes":[],"para_quien":["Playas y piscinas municipales","Parques infantiles","Zonas deportivas al aire libre","Municipios turisticos en verano"],
+     "ficha_tecnica":[{"bloque":"Sensor","detalle":"Weathercom: UV, temperatura, humedad, luz visible, ruido"},{"bloque":"Pantalla","detalle":"LED exterior SMD Pitch4, 768x1024 mm, 192x256 px"},{"bloque":"Software","detalle":"Envizom, interfaz web con mensajes y bandera del dia"}]},
+
+    {"slug":"control-ruido","nombre":"Control de ruido","marca":"Discomon IoT","categoria_slug":"medio-ambiente","destacado":false,
+     "gancho":"El ruido excesivo en zonas de ocio es dificil de controlar sin personal. La policia no puede estar en todos los puntos.",
+     "que_hace":["Sensor de ruido ambiental","Alertas luminicas visibles al superar el umbral","Software ambiental de analisis","Notificacion automatica a la policia"],
+     "variantes":[],"para_quien":["Zonas de bares y ocio nocturno","Terrazas en areas residenciales","Eventos musicales en espacios publicos"],
+     "ficha_tecnica":[{"bloque":"Medicion","detalle":"Sensor de ruido con umbral configurable"},{"bloque":"Aviso","detalle":"Alerta luminica y notificacion a policia"}]},
+
+    {"slug":"control-contenedores","nombre":"Control inteligente de contenedores","marca":"Discomon IoT","categoria_slug":"medio-ambiente","destacado":false,
+     "gancho":"Las rutas de recogida son fijas aunque los contenedores no esten llenos, generando costes y emisiones evitables; ademas el acceso es dificil de controlar.",
+     "que_hace":["Sensor de llenado, aperturas y temperatura","Acceso por identificacion electronica (tarjeta MiFare)","Gestion de rutas y aviso a camiones","Deteccion de incendios y notificacion a policia","Datos en plataforma digital"],
+     "variantes":[
+       {"nombre":"Acceso y cerraduras (Maddi Bin Lock)","descripcion":"Cerradura adaptable a cualquier contenedor, IP67, acceso por tarjeta MiFare y app.","galeria":[]},
+       {"nombre":"Control y sensorica (Maddi Bin KB)","descripcion":"Sensor de llenado, GPS, temperatura y eventos. Conexion SIM con la nube.","galeria":[]}
+     ],
+     "para_quien":["Optimizacion de rutas de recogida","Zonas con alta variabilidad de uso","Deteccion temprana de incendios en contenedores"],
+     "ficha_tecnica":[{"bloque":"Acceso","detalle":"Cerradura Maddi Bin Lock IP67, tarjeta MiFare 1k/4k"},{"bloque":"Sensorica","detalle":"Llenado, GPS, temperatura; conexion SIM a la nube"},{"bloque":"Autonomia","detalle":"105.000 ciclos o 4 anos; -60C a 85C"}]},
+
+    {"slug":"caseta-deposito-basuras","nombre":"Caseta inteligente de deposito de basuras","marca":"Discomon IoT","categoria_slug":"medio-ambiente","destacado":false,
+     "gancho":"Los contenedores en la via publica generan mal olor, suciedad y uso indebido, y el municipio no puede controlar quien deposita ni optimizar rutas.",
+     "que_hace":["Recinto cerrado con control de acceso por QR o tarjeta","Sistema de vigilancia","Sensor de llenado y distribucion","Puerta trasera para recogida","Datos historicos en la nube"],
+     "variantes":[],"para_quien":["Urbanizaciones y comunidades","Zonas turisticas de alta rotacion","Municipios con deposicion ilegal"],
+     "ficha_tecnica":[{"bloque":"Acceso","detalle":"QR o tarjeta Mifare"},{"bloque":"Control","detalle":"Vigilancia, sensor de llenado, datos en nube"}]},
+
+    {"slug":"modulo-cargador-movil","nombre":"Modulo cargador de movil","marca":"Discomon IoT","categoria_slug":"espacio-publico","destacado":false,
+     "gancho":"Los ciudadanos y turistas se quedan sin bateria en espacios publicos sin acceso a carga.",
+     "que_hace":["Totem de carga para moviles en espacio publico","Salida de doble carga","Proteccion de datos y seguridad","Personalizable con la imagen del municipio"],
+     "variantes":[],"para_quien":["Playas y zonas turisticas","Parques y jardines","Eventos municipales","Zonas de espera"],
+     "ficha_tecnica":[{"bloque":"Carga","detalle":"Doble toma, 5 VDC y 2,1 A por toma"},{"bloque":"Proteccion","detalle":"Caja estanca IP65"}]},
+
+    {"slug":"kien-mou","nombre":"Kien Mou (arbol de la renovacion)","marca":"Discomon IoT","categoria_slug":"medio-ambiente","destacado":false,
+     "gancho":"Las ciudades necesitan limpiar el aire en zonas de alta concentracion de personas donde no se pueden plantar arboles.",
+     "que_hace":["Purificacion de aire personalizada por zona","Elimina PM2.5/PM10, virus, bacterias, gases y CO2","Cartel LED programable","Nodo de conectividad SmartCity"],
+     "variantes":[],"para_quien":["Centros comerciales","Plazas y mercados concurridos","Intercambiadores de bus","Parkings cubiertos"],
+     "ficha_tecnica":[{"bloque":"Purificacion","detalle":"PM2.5/PM10, virus, bacterias, NO/NO2/SO2/COVs, CO2"},{"bloque":"Extra","detalle":"Cartel LED + nodo SmartCity"}]},
+
+    {"slug":"cargadores-vehiculos-electricos","nombre":"Cargadores para vehiculos electricos","marca":"Discomon IoT","categoria_slug":"espacio-publico","destacado":false,
+     "gancho":"Los municipios necesitan infraestructura de carga para fomentar la movilidad electrica y cumplir normativas de descarbonizacion.",
+     "que_hace":["Carga rapida modo 3, de 7,5 kW a 22 kW","Disponible en monofasico y trifasico","Versiones de 1 y 2 salidas","Gestion por plataforma web"],
+     "variantes":[
+       {"nombre":"Cargador en pedestal (SecuriCharge EV)","descripcion":"Punto de carga en pedestal para via publica, 1 o 2 salidas, hasta 22 kW.","galeria":[]},
+       {"nombre":"Cargador a pared","descripcion":"Wallbox para parkings cubiertos e instalaciones, hasta 22 kW.","galeria":[]}
+     ],
+     "para_quien":["Parkings municipales","Zonas comerciales","Aparcamientos disuasorios","Poligonos industriales"],
+     "ficha_tecnica":[{"bloque":"Potencia","detalle":"7,5 kW (32A), 11 kW, 22 kW (32A)"},{"bloque":"Tipo","detalle":"Modo 3, monofasico y trifasico"},{"bloque":"Salidas","detalle":"1 o 2 por punto"}]},
+
+    {"slug":"mobiliario-urbano-doys","nombre":"Mobiliario urbano sostenible (DOYS)","marca":"DOYS","categoria_slug":"espacio-publico","destacado":false,
+     "gancho":"El mobiliario urbano de madera se pudre y necesita mantenimiento constante; las alternativas metalicas son caras y se oxidan.",
+     "que_hace":["Fabricado en plastico mixto 100% reciclado y reciclable","No se pudre, ni se astilla, ni acumula hongos o bacterias","Gran durabilidad sin apenas mantenimiento","Bancos, papeleras, vallas, pergolas, mesas de picnic, maceteros","Tambien marquesinas de bus, fuentes y parques infantiles"],
+     "variantes":[
+       {"nombre":"Bancos, papeleras y vallas","descripcion":"Mobiliario base en plastico reciclado.","galeria":[]},
+       {"nombre":"Pergolas, mesas de picnic y maceteros","descripcion":"Para areas recreativas y zonas verdes.","galeria":[]},
+       {"nombre":"Fuentes para personas y mascotas","descripcion":"Modelo FMM-01 con filtrado Triplex; FP-02 infantil de doble altura.","galeria":[]},
+       {"nombre":"Marquesinas de autobus","descripcion":"Diseno modular y personalizable.","galeria":[]},
+       {"nombre":"Parques infantiles","descripcion":"Cesped artificial, equipamiento de juego y toldos de proteccion solar.","galeria":[]}
+     ],
+     "para_quien":["Parques y jardines","Zonas de picnic y recreativas","Rutas de senderismo","Areas de juego infantil","Paradas de autobus"],
+     "ficha_tecnica":[{"bloque":"Material","detalle":"Plastico mixto 100% reciclado y reciclable"},{"bloque":"Ventaja","detalle":"No se pudre ni astilla; minimo mantenimiento"},{"bloque":"Fuentes","detalle":"Filtrado Triplex Horeca Evo (FMM-01)"}]},
+
+    {"slug":"senalizacion-vertical-horizontal","nombre":"Senalizacion vertical y horizontal","marca":"DOYS","categoria_slug":"instalacion-obra","destacado":false,
+     "gancho":"La senalizacion vial deteriorada o ausente es causa directa de accidentes y multas para los municipios.",
+     "que_hace":["Instalacion de placas y postes","Reparacion de luminaria o fallo tecnico","Renovacion de baterias","Pintura horizontal: pasos, rotondas, zonas de VE"],
+     "variantes":[],"para_quien":["Renovacion en obras de urbanizacion","Mantenimiento preventivo","Nuevas zonas de vehiculos electricos"],
+     "ficha_tecnica":[]},
+
+    {"slug":"bolardos-captafaros","nombre":"Bolardos y captafaros (DOYS)","marca":"DOYS","categoria_slug":"instalacion-obra","destacado":false,
+     "gancho":"Delimitar el espacio publico y dar visibilidad nocturna a pasos y cruces es esencial para la seguridad vial y requiere instalacion especializada.",
+     "que_hace":["Bolardos flexibles, urbanos (fijos/removibles/retractiles) y sincronizados con semaforo","Captafaros solares uni o bidireccionales","Cinta reflectante 3M y proteccion UV","Resistentes a vehiculos ligeros y pesados"],
+     "variantes":[
+       {"nombre":"Bolardo SR-BALI flexible","descripcion":"Flexible, alto efecto memoria y resistencia al impacto, cinta 3M.","galeria":[]},
+       {"nombre":"Bolardo SR-CITY-BALI urbano","descripcion":"Fijo, removible o retractil. Proteccion UV.","galeria":[]},
+       {"nombre":"Bolardo SR-CITY-BALI-TL","descripcion":"Sincronizado con semaforo; LEDs cambian de rojo a verde.","galeria":[]},
+       {"nombre":"Captafaros y balizas solares","descripcion":"SR-25, SR-11, baliza RC-W11 y losetas CrossLED. Uni o bidireccional.","galeria":[]}
+     ],
+     "para_quien":["Pasos de peatones en zonas escolares","Accesos a zonas peatonales","Cruces con baja visibilidad nocturna"],
+     "ficha_tecnica":[{"bloque":"Bolardos","detalle":"Flexible, urbano (fijo/removible/retractil), sincronizado con semaforo"},{"bloque":"Captafaros","detalle":"SR-25, SR-11 solar, uni/bidireccional"},{"bloque":"Proteccion","detalle":"Cinta 3M y proteccion UV"}]},
+
+    {"slug":"alumbrado-publico","nombre":"Alumbrado publico y placas fotovoltaicas","marca":"DOYS","categoria_slug":"instalacion-obra","destacado":false,
+     "gancho":"El alumbrado obsoleto consume demasiada energia y, sin sensorizacion, no se pueden detectar fallos ni optimizar el encendido.",
+     "que_hace":["Instalacion de farolas y placas fotovoltaicas","Sensorizacion y renovacion de cuadros electricos","Obtencion de datos y deteccion de incidencias","Regulacion horaria y control de encendido"],
+     "variantes":[
+       {"nombre":"Farolas y alumbrado","descripcion":"Instalacion y renovacion de alumbrado publico.","galeria":[]},
+       {"nombre":"Cuadros electricos sensorizados","descripcion":"Datos, deteccion de incidencias, regulacion horaria.","galeria":[]},
+       {"nombre":"Placas fotovoltaicas","descripcion":"Instalacion solar en edificios e instalaciones municipales.","galeria":[]}
+     ],
+     "para_quien":["Renovacion de alumbrado en vias publicas","Optimizacion energetica","Edificios y pabellones municipales"],
+     "ficha_tecnica":[{"bloque":"Sensorizacion","detalle":"Datos, incidencias, regulacion horaria, control encendido/apagado"},{"bloque":"Solar","detalle":"Placas fotovoltaicas para autoconsumo municipal"}]}
+  ]
+}

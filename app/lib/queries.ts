@@ -2,6 +2,19 @@ import { supabase } from './supabase'
 
 /* ── Tipos que reflejan el esquema real de Supabase ──────── */
 
+/* Variante/formato de un producto. Su galería se rellenará en la fase de fotos. */
+export type Variante = {
+  nombre: string
+  descripcion: string
+  galeria: string[]
+}
+
+/* Fila de la ficha técnica (par bloque/detalle). */
+export type FichaTecnicaItem = {
+  bloque: string
+  detalle: string
+}
+
 export type Categoria = {
   id: string
   nombre: string
@@ -37,9 +50,12 @@ export type Producto = {
   paso5_texto: string | null
   paso5_icono: string | null
   para_quien: string | null
+  variantes: Variante[] | null
   fotos_urls: string[] | null
   videos_urls: string[] | null
-  ficha_tecnica: string | null
+  galeria: string[] | null
+  foto_principal: string | null
+  ficha_tecnica: FichaTecnicaItem[] | null
   cta_texto: string | null
   cta_email: string | null
 }

@@ -62,7 +62,10 @@ export default async function ProductoPage({
     { titulo: prod.paso5_titulo, texto: prod.paso5_texto, icono: prod.paso5_icono },
   ].filter(p => p.titulo && p.titulo.trim() !== '')
   const publicos = lineas(prod.para_quien)
-  const fichaLineas = lineas(prod.ficha_tecnica)
+  /* Variantes/formatos (jsonb). Solo las que tengan nombre. */
+  const variantes = (prod.variantes ?? []).filter(v => v && v.nombre && v.nombre.trim() !== '')
+  /* Ficha técnica (jsonb, pares bloque/detalle). Solo filas con bloque o detalle. */
+  const ficha = (prod.ficha_tecnica ?? []).filter(f => f && (f.bloque?.trim() || f.detalle?.trim()))
   const fotos = prod.fotos_urls ?? []
   const videos = prod.videos_urls ?? []
   const ctaBotones = (prod.cta_texto ?? '')
@@ -161,6 +164,39 @@ export default async function ProductoPage({
         </section>
       )}
 
+      {variantes.length > 0 && (
+        <section className={styles.variants}>
+          <div className="container">
+            <p className={styles.eyebrow}>Formatos</p>
+            <h2 className={styles.sectionTitle}>Formatos disponibles</h2>
+            <div className={styles.variantGrid}>
+              {variantes.map((v, i) => {
+                const galeria = v.galeria ?? []
+                return (
+                  <div key={i} className={styles.variantCard}>
+                    <h4>{v.nombre}</h4>
+                    {v.descripcion && <p>{v.descripcion}</p>}
+                    {/* Galería de la variante: carrusel horizontal (scroll-snap) a todo el
+                        ancho de la tarjeta cuando tenga fotos; oculto si galeria está vacía.
+                        Pendiente de la fase de fotos. */}
+                    {galeria.length > 0 && (
+                      <div className={styles.variantGallery}>
+                        {galeria.map((url, j) => (
+                          <div key={j} className={styles.variantSlide}>
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img src={url} alt={`${v.nombre} ${j + 1}`} />
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+        </section>
+      )}
+
       {publicos.length > 0 && (
         <section className={styles.forwho}>
           <div className="container">
@@ -211,20 +247,28 @@ export default async function ProductoPage({
         </section>
       )}
 
-      {fichaLineas.length > 0 && (
+      {ficha.length > 0 && (
         <section className={styles.techspec}>
           <div className="container">
-            <div className={styles.spec}>
-              <div className={styles.specHead}>
+            <details className={styles.spec}>
+              <summary className={styles.specHead}>
                 <span className={styles.specTitle}>Ficha técnica</span>
-              </div>
+                <span className={styles.specChevron} aria-hidden="true">
+                  <i className="ti ti-chevron-down" />
+                </span>
+              </summary>
               <div className={styles.specBody}>
                 <p className={styles.specNote}>Para perfiles técnicos — información detallada del producto</p>
-                {fichaLineas.map((linea, i) => (
-                  <p key={i}>{linea}</p>
-                ))}
+                <div className={styles.specTable}>
+                  {ficha.map((row, i) => (
+                    <div key={i} className={styles.specRow}>
+                      <span className={styles.specBloque}>{row.bloque}</span>
+                      <span className={styles.specDetalle}>{row.detalle}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
+            </details>
           </div>
         </section>
       )}

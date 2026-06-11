@@ -25,10 +25,6 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true)
   const router = useRouter()
 
-  useEffect(() => {
-    cargarDatos()
-  }, [])
-
   async function cargarDatos() {
     const { data: cats } = await supabase
       .from('categorias')
@@ -46,6 +42,12 @@ export default function DashboardPage() {
     if (prods) setProductos(prods)
     setLoading(false)
   }
+
+  useEffect(() => {
+    // Carga inicial al montar; setState ocurre tras los await (no es síncrono).
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    cargarDatos()
+  }, [])
 
   async function cerrarSesion() {
     await supabase.auth.signOut()
