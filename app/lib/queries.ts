@@ -67,13 +67,30 @@ export type ProductoConCategoria = Producto & {
 
 /* ── Consultas ───────────────────────────────────────────── */
 
+/* Un fallo de Supabase (BD pausada, caída, red) NO es lo mismo que "no hay
+   datos": si lo tratáramos como lista vacía / null, Next podría hornear y
+   cachear una home vacía o un 404 falso (como pasó al pausar la BD). Por eso
+   propagamos el error: así la generación estática/ISR falla y Vercel sigue
+   sirviendo la última versión buena en vez de cachear el vacío.
+   Las filas inexistentes NO pasan por aquí: usamos .maybeSingle(), que
+   devuelve data=null sin error cuando no hay fila. */
+function lanzarSiError(
+  contexto: string,
+  error: { message: string } | null,
+): void {
+  if (error) {
+    throw new Error(`Error consultando ${contexto} en Supabase: ${error.message}`)
+  }
+}
+
 /* Todas las categorías, ordenadas. Para la home y el footer. */
 export async function getCategorias(): Promise<Categoria[]> {
-  const { data } = await supabase
+  const { data, error } = await supabase
     .from('categorias')
     .select('*')
     .order('orden')
 
+  lanzarSiError('categorias', error)
   return data ?? []
 }
 
@@ -81,12 +98,13 @@ export async function getCategorias(): Promise<Categoria[]> {
 export async function getCategoriaPorSlug(
   slug: string,
 ): Promise<Categoria | null> {
-  const { data } = await supabase
+  const { data, error } = await supabase
     .from('categorias')
     .select('*')
     .eq('slug', slug)
-    .single()
+    .maybeSingle()
 
+  lanzarSiError(`categoria "${slug}"`, error)
   return data ?? null
 }
 
@@ -94,13 +112,14 @@ export async function getCategoriaPorSlug(
 export async function getProductosPorCategoria(
   categoriaId: string,
 ): Promise<Producto[]> {
-  const { data } = await supabase
+  const { data, error } = await supabase
     .from('productos')
     .select('*')
     .eq('categoria_id', categoriaId)
     .eq('estado', 'publicado')
     .order('orden')
 
+  lanzarSiError(`productos de categoria ${categoriaId}`, error)
   return data ?? []
 }
 
@@ -110,20 +129,22 @@ export async function getProductosPorCategoria(
 export async function getProductoPorSlug(
   slug: string,
 ): Promise<ProductoConCategoria | null> {
-  const { data: producto } = await supabase
+  const { data: producto, error: errProducto } = await supabase
     .from('productos')
     .select('*')
     .eq('slug', slug)
     .eq('estado', 'publicado')
-    .single()
+    .maybeSingle()
 
+  lanzarSiError(`producto "${slug}"`, errProducto)
   if (!producto) return null
 
-  const { data: categoria } = await supabase
+  const { data: categoria, error: errCategoria } = await supabase
     .from('categorias')
     .select('nombre, slug')
     .eq('id', producto.categoria_id)
-    .single()
+    .maybeSingle()
 
+  lanzarSiError(`categoria de producto "${slug}"`, errCategoria)
   return { ...producto, categoria: categoria ?? null }
 }
